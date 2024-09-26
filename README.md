@@ -58,25 +58,5 @@ function launch(uint256 supply721, bool create) external payable onlyOwner {
 
 MEMENTO simplifies this by reducing overhead and making critical optimizations, lowering the gas needed for deployment.
 
-## How to Deploy MEMENTO
-
-1. **Deploy the contract**: Compile and deploy the `MEMENTO` contract using Foundry.
-
-2. **Set up the Uniswap Pair**: After deployment, call the `setupPair()` function. This will create a liquidity pair for the token with ETH on Uniswap V2.
-
-   Example:
-   ```solidity
-   setupPair()
-   ```
-
-3. **Add Liquidity**: Go to [Uniswap V2](https://app.uniswap.org/pools/v2) and add liquidity for the newly created pair.
-
-4. **Launch the Token**: Once liquidity is added, call the `launch()` function to finalize the token launch.
-
-   Example:
-   ```solidity
-   launch()
-   ```
-
 ## Conclusion
 MEMENTO offers a more gas-efficient deployment process compared to INCEPT. By optimizing gas costs and simplifying the setup, it's ideal for projects looking to minimize expenses during the launch phase.
