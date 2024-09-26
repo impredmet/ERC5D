@@ -20,7 +20,7 @@ contract ERC4DoScript is Script {
         uint256 supply721 = 1000;
         bytes32 salt = keccak256(abi.encodePacked(block.timestamp, msg.sender));
 
-        ERC4Do erc4do = new ERC4Do(
+        new ERC4Do(
             name, 
             symbol, 
             decimals, 
