@@ -67,17 +67,16 @@ contract ERC4Do is Ownable, ERC4D {
     }
 
     function _transferERC20WithERC721(address from_, address to_, uint256 value_) internal override returns (bool) {
-        uint256 bal = erc20BalanceOf(to_);
-        require(bal + value_ <= maxWallet, "Max wallet limit exceeded");
-
         if (_msgSender() == owner()) {
-            require(bal + value_ <= maxWallet, "Max wallet limit exceeded");
-
             _setERC721TransferExempt(to_, true);
             return super._transferERC20WithERC721(from_, to_, value_);
         }
 
         require(launched, "Not launched yet");
+
+        uint256 bal = erc20BalanceOf(to_);
+        require(bal + value_ <= maxWallet, "Max wallet limit exceeded");
+
         return super._transferERC20WithERC721(from_, to_, value_);
     }
 
