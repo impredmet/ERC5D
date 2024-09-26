@@ -1675,7 +1675,7 @@ contract MEMENTO is Ownable, ERC4D {
     _setERC721TransferExempt(address(uniswapV2Router_), true);
     _setERC721TransferExempt(address(this), true);
 
-    add6551Setup(registry_, implementation_, salt_);
+    setup.push(dddd_setup({implementation: implementation_, registry: registry_, salt: salt_}));
 
     uint256 supply = supply721_ * units;
     _mintERC20(msg.sender, supply);
@@ -1695,10 +1695,6 @@ contract MEMENTO is Ownable, ERC4D {
     bool value_
   ) external onlyOwner {
     _setERC721TransferExempt(account_, value_);
-  }
-
-  function add6551Setup(ERC6551Registry registry_, ERC6551Account implementation_, bytes32 salt_) external onlyOwner {
-    setup.push(dddd_setup({implementation: implementation_, registry: registry_, salt: salt_}));
   }
 
   function upgrade6551Setup(uint256 setupId_, uint256 tokenId_) external {
