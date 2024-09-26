@@ -2,9 +2,5 @@
   "name": "erc4do",
   "version": "1.0.0",
   "repository": "https://github.com/impredmet/erc4do.git",
-  "license": "MIT",
-  "dependencies": {
-    "currency.js": "^2.0.4",
-    "hardhat": "^2.22.12"
-  }
+  "license": "MIT"
 }
