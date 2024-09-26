@@ -1,7 +1,7 @@
-# MEMENTO - Optimized Launch with Lower Fees
+# MEMENTO - Optimized ERC-4D Launch with Lower Fees
 
 ## Overview
-MEMENTO is built on the ERC4D standard, with optimizations that significantly reduce gas fees during the launch process. The `launch()` function has been simplified, and the `allowExempt` feature is enabled by default. This version offers an improved deployment experience compared to INCEPT, with an emphasis on efficiency and reduced costs.
+MEMENTO is built on the [ERC4D standard](https://ethereum-magicians.org/t/erc-4d-dimensional-token-standard-dts/21185), with optimizations that significantly reduce gas fees during the launch process. The `launch()` function has been simplified, and the `allowExempt` feature is enabled by default. This version offers an improved deployment experience compared to INCEPT, with an emphasis on efficiency and reduced costs.
 
 ## Optimized Gas Fees
 By optimizing how certain features are initialized, MEMENTO reduces gas costs in the launch phase. Operations that were executed post-deployment in INCEPT are now handled upfront. For instance, the `_setERC721TransferExempt` has been included during the contract deployment:
