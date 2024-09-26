@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.26;
 
 import {Script} from "forge-std/Script.sol";
 import {ERC4Do} from "../src/ERC4Do.sol";

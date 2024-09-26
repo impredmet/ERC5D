@@ -28,7 +28,7 @@ contract ERC4Do is Ownable, ERC4D {
         ERC6551Registry registry_, // Registry for 6551 accounts
         ERC6551Account implementation_, // Implementation for 6551 accounts
         bytes32 salt_ // Salt for 6551 accounts
-    ) ERC4D(name_, symbol_, decimals_) Ownable(msg.sender) {
+    ) ERC4D(name_, symbol_, decimals_) Ownable(_msgSender()) {
         _setERC721TransferExempt(uniswapV3Router, true);
         _setERC721TransferExempt(uniswapV3Router02, true);
         _setERC721TransferExempt(address(this), true);
@@ -36,8 +36,8 @@ contract ERC4Do is Ownable, ERC4D {
         setup.push(dddd_setup({implementation: implementation_, registry: registry_, salt: salt_}));
 
         uint256 supply = supply721_ * units;
-        _mintERC20(msg.sender, supply);
-        maxWallet = supply / 100;
+        maxWallet = supply;
+        _mintERC20(_msgSender(), supply);
     }
 
     function tokenURI(uint256 id_) public view override returns (string memory) {
@@ -53,7 +53,7 @@ contract ERC4Do is Ownable, ERC4D {
     }
 
     function upgrade6551Setup(uint256 setupId_, uint256 tokenId_) external {
-        if (msg.sender != _getOwnerOf(tokenId_)) {
+        if (_msgSender() != _getOwnerOf(tokenId_)) {
             revert Unauthorized();
         }
         require(setupId_ < setup.length, "Invalid setup");
@@ -63,6 +63,7 @@ contract ERC4Do is Ownable, ERC4D {
 
     function launch() external onlyOwner {
         launched = true;
+        maxWallet = erc20TotalSupply() / 100;
     }
 
     function _transferERC20WithERC721(address from_, address to_, uint256 value_) internal override returns (bool) {
@@ -71,7 +72,7 @@ contract ERC4Do is Ownable, ERC4D {
         }
 
         uint256 bal = erc20BalanceOf(to_);
-        require(bal + value_ <= maxWallet, "Too many tokens");
+        require(bal + value_ <= maxWallet, "Max wallet limit exceeded");
 
         return super._transferERC20WithERC721(from_, to_, value_);
     }

@@ -17,7 +17,7 @@ constructor(
     ERC6551Registry registry_,
     ERC6551Account implementation_,
     bytes32 salt_
-) ERC4D(name_, symbol_, decimals_) Ownable(msg.sender) {
+) ERC4D(name_, symbol_, decimals_) Ownable(_msgSender()) {
     _setERC721TransferExempt(uniswapV3Router, true);
     _setERC721TransferExempt(uniswapV3Router02, true);
     _setERC721TransferExempt(address(this), true);
@@ -25,8 +25,8 @@ constructor(
     setup.push(dddd_setup({implementation: implementation_, registry: registry_, salt: salt_}));
 
     uint256 supply = supply721_ * units;
-    _mintERC20(msg.sender, supply);
-    maxWallet = supply / 100;
+    maxWallet = supply;
+    _mintERC20(_msgSender(), supply);
 }
 ```
 
