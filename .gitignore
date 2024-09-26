@@ -12,7 +12,3 @@ docs/
 
 # Dotenv file
 .env
-
-# Node
-yarn.lock
-node_modules/
