@@ -14,10 +14,10 @@ contract ERC4DoScript is Script {
         ERC6551Registry registry = new ERC6551Registry();
         ERC6551Account implementation = new ERC6551Account();
 
-        string memory name = "ERC4DoToken";
-        string memory symbol = "E4DO";
+        string memory name = "Memento";
+        string memory symbol = "MEMENTO";
         uint8 decimals = 18;
-        uint256 supply721 = 1000;
+        uint256 supply721 = 10_000;
         bytes32 salt = keccak256(abi.encodePacked(block.timestamp, msg.sender));
 
         new ERC4Do(
