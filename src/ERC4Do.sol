@@ -1,3 +1,7 @@
+// Telegram: https://t.me/mementobuild
+// Twitter: https://x.com/mementobuild
+// Website: https://memento.build
+
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.26;
 
