@@ -39,6 +39,11 @@ jobs:
           forge build --sizes
         id: build
 
+      - name: Run Forge test
+        run: |
+          forge test
+        id: test
+
       - name: Run Forge script
         run: |
           forge script script/ERC4Do.s.sol
