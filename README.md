@@ -1,5 +1,3 @@
-# ERC4Do - Optimized ERC4D Launch with Uniswap V3 and Lower Fees
-
 ## Overview
 
 **ERC4Do** is a new standard based on the [ERC4D standard](https://ethereum-magicians.org/t/erc-4d-dimensional-token-standard-dts/21185), offering significant optimizations that reduce gas fees during the launch process. With Uniswap V3 integration, ERC4Do improves upon the deployment experience by focusing on gas efficiency and reduced costs.
