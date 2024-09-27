@@ -63,12 +63,12 @@ contract ERC4DoTest is Test {
     function testSetUpdateURI() public {
         vm.startPrank(deployer);
 
-        assertEq(erc4do.baseURI(), "");
+        assertEq(erc4do.dataURI(), "");
 
         string memory newURI = "https://newuri.com/";
         erc4do.updateURI(newURI);
 
-        assertEq(erc4do.baseURI(), newURI);
+        assertEq(erc4do.dataURI(), newURI);
 
         vm.stopPrank();
     }
@@ -78,12 +78,12 @@ contract ERC4DoTest is Test {
 
         string memory initialURI = "https://initialuri.com/";
         erc4do.updateURI(initialURI);
-        assertEq(erc4do.baseURI(), initialURI);
+        assertEq(erc4do.dataURI(), initialURI);
 
         string memory updatedURI = "https://updateduri.com/";
         erc4do.updateURI(updatedURI);
 
-        assertEq(erc4do.baseURI(), updatedURI);
+        assertEq(erc4do.dataURI(), updatedURI);
 
         vm.stopPrank();
     }
