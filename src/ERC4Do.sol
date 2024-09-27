@@ -18,26 +18,24 @@ contract ERC4Do is Ownable, ERC4D {
 
     string public baseURI;
     bool public launched;
-    uint256 public maxWallet;
+    uint256 public maxWallet = type(uint256).max;
 
     constructor(
         string memory name_, // Name for ERC-20 representation
         string memory symbol_, // Symbol for ERC-20 representation
         uint8 decimals_, // Decimals for ERC-20 representation
-        uint256 supply721_, // Supply of ERC721s to mint
+        uint256 supply721_, // Supply of ERC721s to mint (eg. 10_000)
         ERC6551Registry registry_, // Registry for 6551 accounts
         ERC6551Account implementation_, // Implementation for 6551 accounts
-        bytes32 salt_ // Salt for 6551 accounts
+        bytes32 salt_ // Salt for 6551 accounts (eg. keccak256("ERC4Do"))
     ) ERC4D(name_, symbol_, decimals_) Ownable(_msgSender()) {
         _setERC721TransferExempt(uniswapV3Router, true);
         _setERC721TransferExempt(uniswapV3Router02, true);
         _setERC721TransferExempt(address(this), true);
 
         setup.push(dddd_setup({implementation: implementation_, registry: registry_, salt: salt_}));
-
-        uint256 supply = supply721_ * units;
-        maxWallet = supply;
-        _mintERC20(_msgSender(), supply);
+        
+        _mintERC20(_msgSender(), supply721_ * units);
     }
 
     function tokenURI(uint256 id_) public view override returns (string memory) {
