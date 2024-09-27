@@ -1,5 +1,5 @@
 /*
- A collection of 10,000 Replicants on ERC5D: optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for images.
+ A collection of 10,000 Replicants on ERC5D: optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for NFTs.
  
  Telegram: https://t.me/mementobuild
  Twitter: https://x.com/mementobuild
@@ -18,7 +18,7 @@ import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 /**
  * @title ERC5D
  * @author https://github.com/impredmet
- * @notice Optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for images.
+ * @notice Optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for NFTs.
  */
 contract ERC5D is Ownable, ERC4D {
     string public dataURI;
@@ -68,7 +68,7 @@ contract ERC5D is Ownable, ERC4D {
         string memory jsonPreImage = string.concat(
             string.concat(
                 string.concat('{"name": "Memento #', Strings.toString(id)),
-                '","description":"A collection of 10,000 Replicants on ERC5D: optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for images.","external_url":"https://memento.build","image":"'
+                '","description":"A collection of 10,000 Replicants on ERC5D: optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for NFTs.","external_url":"https://memento.build","image":"'
             ),
             string.concat(dataURI, image)
         );
