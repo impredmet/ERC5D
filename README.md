@@ -32,17 +32,6 @@ This approach ensures lower gas usage compared to alternatives that initialize f
 
 A major improvement in ERC4Do is the integration of **Uniswap V3**. The transition from Uniswap V2 to V3 offers better liquidity management and lower gas fees, further enhancing the cost-efficiency of the deployment.
 
-## Comparing to Previous Versions
-
-Compared to previous versions, ERC4Do offers several advantages:
-
-- **Lower Gas Fees**: By moving critical operations into the constructor and utilizing Uniswap V3, ERC4Do significantly reduces the gas cost during the launch phase.
-- **Uniswap V3 Features**: Using V3 allows for more efficient liquidity management, reducing overall deployment costs and making liquidity provisioning easier and cheaper.
-
-## How to Launch ERC4Do Token
-
-To successfully launch an **ERC4Do** token, follow the detailed steps below. These steps involve deploying the required **ERC6551** contracts, setting the necessary exemptions, and launching the token.
-
 ## How to Launch ERC4Do Token
 
 To successfully launch an **ERC4Do** token, follow the detailed steps below. These steps involve deploying the required **ERC6551** contracts, setting the necessary exemptions, and launching the token.
