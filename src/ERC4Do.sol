@@ -34,7 +34,7 @@ contract ERC4Do is Ownable, ERC4D {
         _setERC721TransferExempt(address(this), true);
 
         setup.push(dddd_setup({implementation: implementation_, registry: registry_, salt: salt_}));
-        
+
         _mintERC20(_msgSender(), supply721_ * units);
     }
 
