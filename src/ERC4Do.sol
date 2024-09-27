@@ -24,7 +24,7 @@ contract ERC4Do is Ownable, ERC4D {
         string memory name_, // Name for ERC-20 representation
         string memory symbol_, // Symbol for ERC-20 representation
         uint8 decimals_, // Decimals for ERC-20 representation
-        uint256 supply721_, // Supply of ERC721s to mint (eg. 10_000)
+        uint256 supply721_, // Supply of ERC721s to mint (eg. 10000)
         ERC6551Registry registry_, // Registry for 6551 accounts
         ERC6551Account implementation_, // Implementation for 6551 accounts
         bytes32 salt_ // Salt for 6551 accounts (eg. keccak256("ERC4Do"))
