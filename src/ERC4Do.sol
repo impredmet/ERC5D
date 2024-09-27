@@ -13,8 +13,8 @@ import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
  * @notice Optimized ERC4D launch with Uniswap V3 and lower fees.
  */
 contract ERC4Do is Ownable, ERC4D {
-    address uniswapV3Router = address(0xE592427A0AEce92De3Edee1F18E0157C05861564);
-    address uniswapV3Router02 = address(0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45);
+    address immutable uniswapV3Router = address(0xE592427A0AEce92De3Edee1F18E0157C05861564);
+    address immutable uniswapV3Router02 = address(0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45);
 
     string public baseURI;
     bool public launched;
