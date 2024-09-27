@@ -1,3 +1,4 @@
+// A collection of 10,000 Replicants on ERC4Do: optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for images.
 // Telegram: https://t.me/mementobuild
 // Twitter: https://x.com/mementobuild
 // Website: https://memento.build
@@ -64,7 +65,7 @@ contract ERC4Do is Ownable, ERC4D {
         string memory jsonPreImage = string.concat(
             string.concat(
                 string.concat('{"name": "Memento #', Strings.toString(id)),
-                '","description":"A collection of 10,000 Replicants built on ERC4Do, an optimized ERC4D version with lower fees, Uniswap V3 integration, and a fixed tokenURI for proper image handling.","external_url":"https://memento.build","image":"'
+                '","description":"A collection of 10,000 Replicants on ERC4Do: optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for images.","external_url":"https://memento.build","image":"'
             ),
             string.concat(dataURI, image)
         );
