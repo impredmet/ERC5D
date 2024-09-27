@@ -10,23 +10,21 @@ By optimizing initialization and leveraging Uniswap V3, ERC4Do reduces gas costs
 
 ```solidity
 constructor(
-    string memory name_,
-    string memory symbol_,
-    uint8 decimals_,
-    uint256 supply721_,
-    ERC6551Registry registry_,
-    ERC6551Account implementation_,
-    bytes32 salt_
+   string memory name_, // Name for ERC-20 representation
+   string memory symbol_, // Symbol for ERC-20 representation
+   uint8 decimals_, // Decimals for ERC-20 representation
+   uint256 supply721_, // Supply of ERC721s to mint (eg. 10000)
+   ERC6551Registry registry_, // Registry for 6551 accounts
+   ERC6551Account implementation_, // Implementation for 6551 accounts
+   bytes32 salt_ // Salt for 6551 accounts (eg. keccak256("ERC4Do"))
 ) ERC4D(name_, symbol_, decimals_) Ownable(_msgSender()) {
-    _setERC721TransferExempt(uniswapV3Router, true);
-    _setERC721TransferExempt(uniswapV3Router02, true);
-    _setERC721TransferExempt(address(this), true);
+   _setERC721TransferExempt(address(this), true);
+   _setERC721TransferExempt(_msgSender(), true);
 
-    setup.push(dddd_setup({implementation: implementation_, registry: registry_, salt: salt_}));
+   setup.push(dddd_setup({implementation: implementation_, registry: registry_, salt: salt_}));
 
-    uint256 supply = supply721_ * units;
-    maxWallet = supply;
-    _mintERC20(_msgSender(), supply);
+   _mintERC20(_msgSender(), supply721_ * units);
+   maxWallet = erc20TotalSupply() / 100;
 }
 ```
 
@@ -36,18 +34,9 @@ This approach ensures lower gas usage compared to alternatives that initialize f
 
 A major improvement in ERC4Do is the integration of **Uniswap V3**. The transition from Uniswap V2 to V3 offers better liquidity management and lower gas fees, further enhancing the cost-efficiency of the deployment.
 
-Key feature:
-
-```solidity
-address uniswapV3Router = address(0xE592427A0AEce92De3Edee1F18E0157C05861564);
-address uniswapV3Router02 = address(0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45);
-```
-
-These addresses connect ERC4Do directly to Uniswap V3, which is configured to handle liquidity and token transfers with reduced gas consumption.
-
 ## Comparing to Previous Versions
 
-Compared to previous versions like **INCEPT** or any Uniswap V2-based implementations, ERC4Do offers several advantages:
+Compared to previous versions, ERC4Do offers several advantages:
 
 - **Lower Gas Fees**: By moving critical operations into the constructor and utilizing Uniswap V3, ERC4Do significantly reduces the gas cost during the launch phase.
 - **Uniswap V3 Features**: Using V3 allows for more efficient liquidity management, reducing overall deployment costs and making liquidity provisioning easier and cheaper.
@@ -56,19 +45,23 @@ Compared to previous versions like **INCEPT** or any Uniswap V2-based implementa
 
 To successfully launch an **ERC4Do** token, follow the detailed steps below. These steps involve deploying the required **ERC6551** contracts, setting the necessary exemptions, and launching the token.
 
+## How to Launch ERC4Do Token
+
+To successfully launch an **ERC4Do** token, follow the detailed steps below. These steps involve deploying the required **ERC6551** contracts, setting the necessary exemptions, and launching the token.
+
 ### Step-by-Step Deployment Guide
 
-1. **Deploy ERC6551 Contracts**: 
-   
+1. **Deploy ERC6551 Contracts**:
+
    First, deploy the following two smart contracts from the `libs` folder:
-   
+
    - `ERC6551Registry`
    - `ERC6551Account`
-   
+
    These contracts are necessary for managing **ERC721** token setups and accounts.
 
 2. **Deploy ERC4Do Contract**:
-   
+
    After deploying the ERC6551 contracts, you can deploy the **ERC4Do** token contract with the following parameters:
 
    - `name`: The name of your ERC4Do token.
@@ -77,46 +70,61 @@ To successfully launch an **ERC4Do** token, follow the detailed steps below. The
    - `supply721`: The total supply of the ERC721 tokens.
    - `registry`: The deployed `ERC6551Registry` contract.
    - `implementation`: The deployed `ERC6551Account` contract.
-   - `salt`: A random salt value to ensure the uniqueness of the deployment.
+   - `salt`: A random salt value to ensure the uniqueness of the deployment (this can be generated [here](https://emn178.github.io/online-tools/keccak_256.html)).
 
-3. **Optional: Renounce Ownership**:
-   
-   After deploying the contracts, if you want the **ERC6551Registry** contract to be fully decentralized and non-upgradable, you can renounce its ownership:
+3. **Transfer Ownership of ERC6551Registry**:
+
+   Once the contracts are deployed, transfer the ownership of the `ERC6551Registry` contract to the newly deployed `ERC4Do` contract:
 
    ```solidity
-   registry.renounceOwnership();
+   registry.transferOwnership(address(erc4do));
    ```
 
-   This step is optional and depends on whether you want to retain control over future upgrades of the registry contract.
+4. **Set Up Exemptions Using Tenderly**:
 
-4. **Provide Liquidity on Uniswap**:
+   Before adding liquidity, head to the Tenderly dashboard and simulate the creation of the Uniswap V3 pool to get the correct pool address:
 
-   Before launching the token, you need to provide liquidity for your **ERC4Do** token. Head over to the Uniswap V3 interface and add liquidity for your token:
+   - Open the following link: [Tenderly Simulator](https://dashboard.tenderly.co/impredmet/project/simulator/628e6764-1dd2-4dca-a509-68868635612b)
+   - Click on **Re-Simulate**.
+   - Enter your `ERC4Do` contract address in the **TokenA** field.
+   - **Note:** If you change the fee value (e.g., using `3000` instead of `10000`), you must use the same fee value when creating the Uniswap pool in Step 5.
+   - Simulate the transaction to get the pool address.
 
-   [Uniswap V3 Pool Creation](https://app.uniswap.org/pool)
-
-   - Select your **ERC4Do** token as one of the pair assets (the other can be **ETH** or any other token of your choice).
-   - Configure the pool parameters such as fee tier and price range based on your preferences.
-
-   Once liquidity is added, you will have the pool's address, which you need to exempt from ERC721 transfers.
-
-   Set the pool address as exempt in the **ERC4Do** contract:
+   Once you have the pool address, set it as exempt in the **ERC4Do** contract:
 
    ```solidity
    erc4do.setERC721TransferExempt(poolAddress, true);
    ```
 
-5. **Launch the Token**:
+5. **Provide Liquidity on Uniswap**:
 
-   Finally, you can launch the token by calling the `launch()` function. This will finalize the deployment and set the necessary parameters, such as the max wallet limit:
+   Now that the pool is set up, you can provide liquidity on Uniswap. Head over to the Uniswap V3 interface:
+
+   [Uniswap V3 Pool Creation](https://app.uniswap.org/pool)
+
+   - Select your **ERC4Do** token as one of the pair assets (the other can be **ETH** or any other token of your choice).
+   - **Important:** Make sure to use the same fee value that was set during the simulation in Step 4 (e.g., if you set `10000`, this corresponds to a `1%` fee tier).
+   - Configure the pool parameters based on your preferences.
+
+6. **Launch the Token**:
+
+   Finally, after adding liquidity, you can launch the token by calling the `launch()` function:
 
    ```solidity
    erc4do.launch();
    ```
 
-After completing these steps, your **ERC4Do** token is fully deployed, liquidity is provided, and the token is ready for public trading with Uniswap V3 integration.
+7. **Remove Max Wallet Limit (Optional)**:
 
-After these steps, your **ERC4Do** token is fully deployed and ready for use, with Uniswap V3 integration for efficient liquidity management and reduced gas fees.
+   If you want to remove the maximum wallet limit restriction for your ERC4Do token, you can call the `removeLimits()` function:
+
+   ```solidity
+   erc4do.removeLimits();
+   ```
+
+   This will set the `maxWallet` to the total supply, allowing unrestricted transfers for all holders.
+
+After completing these steps, your **ERC4Do** token is fully deployed, liquidity is provided, and the token is ready for public trading with Uniswap V3 integration.
 
 ## Conclusion
 
