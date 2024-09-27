@@ -17,7 +17,7 @@ import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
  * @notice Optimized ERC4D launch with Uniswap V3 and lower fees.
  */
 contract ERC4Do is Ownable, ERC4D {
-    string public baseURI;
+    string public dataURI;
     bool public launched;
     uint256 public maxWallet;
 
@@ -39,12 +39,45 @@ contract ERC4Do is Ownable, ERC4D {
         maxWallet = erc20TotalSupply() / 100;
     }
 
-    function tokenURI(uint256 id_) public view override returns (string memory) {
-        return string.concat(baseURI, Strings.toString(id_));
+    function tokenURI(uint256 id) public view override returns (string memory) {
+        uint8 seed = uint8(bytes1(keccak256(abi.encodePacked(id))));
+        string memory image;
+        string memory color;
+
+        if (seed <= 100) {
+            image = "1.jpg";
+            color = "Pink";
+        } else if (seed <= 160) {
+            image = "2.jpg";
+            color = "Gray";
+        } else if (seed <= 210) {
+            image = "3.jpg";
+            color = "Green";
+        } else if (seed <= 240) {
+            image = "4.jpg";
+            color = "Yellow";
+        } else if (seed <= 255) {
+            image = "5.jpg";
+            color = "Orange";
+        }
+
+        string memory jsonPreImage = string.concat(
+            string.concat(
+                string.concat('{"name": "Memento #', Strings.toString(id)),
+                '","description":"A collection of 10,000 Replicants built on ERC4Do, an optimized ERC4D version with lower fees, Uniswap V3 integration, and a fixed tokenURI for proper image handling.","external_url":"https://memento.build","image":"'
+            ),
+            string.concat(dataURI, image)
+        );
+        string memory jsonPostImage = string.concat('","attributes":[{"trait_type":"Color","value":"', color);
+        string memory jsonPostTraits = '"}]}';
+
+        return string.concat(
+            "data:application/json;utf8,", string.concat(string.concat(jsonPreImage, jsonPostImage), jsonPostTraits)
+        );
     }
 
     function updateURI(string memory uri) external onlyOwner {
-        baseURI = uri;
+        dataURI = uri;
     }
 
     function setERC721TransferExempt(address account_, bool value_) external onlyOwner {
