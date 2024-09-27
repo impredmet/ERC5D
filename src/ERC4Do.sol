@@ -10,7 +10,7 @@ import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 /**
  * @title ERC4Do
  * @author https://github.com/impredmet
- * @notice Optimized ERC4D Launch with Uniswap V3 and Lower Fees.
+ * @notice Optimized ERC4D launch with Uniswap V3 and lower fees.
  */
 contract ERC4Do is Ownable, ERC4D {
     address uniswapV3Router = address(0xE592427A0AEce92De3Edee1F18E0157C05861564);
