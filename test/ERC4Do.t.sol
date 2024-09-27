@@ -25,9 +25,8 @@ contract ERC4DoTest is Test {
         registry = new ERC6551Registry();
         implementation = new ERC6551Account();
 
-        erc4do = new ERC4Do(
-            "Memento", "MENTO", 18, 10000, registry, implementation, keccak256(abi.encodePacked("MEMENTO"))
-        );
+        erc4do =
+            new ERC4Do("Memento", "MENTO", 18, 10000, registry, implementation, keccak256(abi.encodePacked("MEMENTO")));
 
         vm.stopPrank();
     }
