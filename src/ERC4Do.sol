@@ -1,7 +1,10 @@
-// A collection of 10,000 Replicants on ERC4Do: optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for images.
-// Telegram: https://t.me/mementobuild
-// Twitter: https://x.com/mementobuild
-// Website: https://memento.build
+/*
+ A collection of 10,000 Replicants on ERC4Do: optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for images.
+ 
+ Telegram: https://t.me/mementobuild
+ Twitter: https://x.com/mementobuild
+ Website: https://memento.build
+*/
 
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.26;
@@ -15,7 +18,7 @@ import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 /**
  * @title ERC4Do
  * @author https://github.com/impredmet
- * @notice Optimized ERC4D launch with Uniswap V3 and lower fees.
+ * @notice Optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for images.
  */
 contract ERC4Do is Ownable, ERC4D {
     string public dataURI;
