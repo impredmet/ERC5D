@@ -2,11 +2,11 @@
 pragma solidity ^0.8.26;
 
 import {Script} from "forge-std/Script.sol";
-import {ERC4Do} from "../src/ERC4Do.sol";
+import {ERC5D} from "../src/ERC5D.sol";
 import {ERC6551Registry} from "../src/libs/ERC6551Registry.sol";
 import {ERC6551Account} from "../src/libs/ERC6551Account.sol";
 
-contract ERC4DoScript is Script {
+contract ERC5DScript is Script {
     function run() external {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
@@ -20,7 +20,7 @@ contract ERC4DoScript is Script {
         uint256 supply721 = 10_000;
         bytes32 salt = keccak256(abi.encodePacked(block.timestamp, msg.sender));
 
-        new ERC4Do(name, symbol, decimals, supply721, registry, implementation, salt);
+        new ERC5D(name, symbol, decimals, supply721, registry, implementation, salt);
 
         vm.stopBroadcast();
     }

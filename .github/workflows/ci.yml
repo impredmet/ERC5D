@@ -46,7 +46,7 @@ jobs:
 
       - name: Run Forge script
         run: |
-          forge script script/ERC4Do.s.sol
+          forge script script/ERC5D.s.sol
         id: script
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}

@@ -1,5 +1,5 @@
 /*
- A collection of 10,000 Replicants on ERC4Do: optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for images.
+ A collection of 10,000 Replicants on ERC5D: optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for images.
  
  Telegram: https://t.me/mementobuild
  Twitter: https://x.com/mementobuild
@@ -16,11 +16,11 @@ import {ERC6551Account} from "./libs/ERC6551Account.sol";
 import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 
 /**
- * @title ERC4Do
+ * @title ERC5D
  * @author https://github.com/impredmet
  * @notice Optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for images.
  */
-contract ERC4Do is Ownable, ERC4D {
+contract ERC5D is Ownable, ERC4D {
     string public dataURI;
     bool public launched;
     uint256 public maxWallet;
@@ -32,7 +32,7 @@ contract ERC4Do is Ownable, ERC4D {
         uint256 supply721_, // Supply of ERC721s to mint (eg. 10000)
         ERC6551Registry registry_, // Registry for 6551 accounts
         ERC6551Account implementation_, // Implementation for 6551 accounts
-        bytes32 salt_ // Salt for 6551 accounts (eg. keccak256("ERC4Do"))
+        bytes32 salt_ // Salt for 6551 accounts (eg. keccak256("ERC5D"))
     ) ERC4D(name_, symbol_, decimals_) Ownable(_msgSender()) {
         _setERC721TransferExempt(address(this), true);
         _setERC721TransferExempt(_msgSender(), true);
@@ -68,7 +68,7 @@ contract ERC4Do is Ownable, ERC4D {
         string memory jsonPreImage = string.concat(
             string.concat(
                 string.concat('{"name": "Memento #', Strings.toString(id)),
-                '","description":"A collection of 10,000 Replicants on ERC4Do: optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for images.","external_url":"https://memento.build","image":"'
+                '","description":"A collection of 10,000 Replicants on ERC5D: optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for images.","external_url":"https://memento.build","image":"'
             ),
             string.concat(dataURI, image)
         );

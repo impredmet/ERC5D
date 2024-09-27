@@ -2,12 +2,12 @@
 pragma solidity ^0.8.26;
 
 import {Test} from "forge-std/Test.sol";
-import {ERC4Do} from "../src/ERC4Do.sol";
+import {ERC5D} from "../src/ERC5D.sol";
 import {ERC6551Registry} from "../src/libs/ERC6551Registry.sol";
 import {ERC6551Account} from "../src/libs/ERC6551Account.sol";
 
-contract ERC4DoTest is Test {
-    ERC4Do erc4do;
+contract ERC5DTest is Test {
+    ERC5D erc5d;
     ERC6551Registry registry;
     ERC6551Account implementation;
 
@@ -25,8 +25,8 @@ contract ERC4DoTest is Test {
         registry = new ERC6551Registry();
         implementation = new ERC6551Account();
 
-        erc4do =
-            new ERC4Do("Memento", "MENTO", 18, 10000, registry, implementation, keccak256(abi.encodePacked("MEMENTO")));
+        erc5d =
+            new ERC5D("Memento", "MENTO", 18, 10000, registry, implementation, keccak256(abi.encodePacked("MEMENTO")));
 
         vm.stopPrank();
     }
@@ -34,40 +34,40 @@ contract ERC4DoTest is Test {
     function testSelfExemptBeforeAndAfterLaunch() public {
         vm.startPrank(deployer);
 
-        assertTrue(erc4do.erc721TransferExempt(deployer));
-        assertTrue(erc4do.erc721TransferExempt(address(erc4do)));
+        assertTrue(erc5d.erc721TransferExempt(deployer));
+        assertTrue(erc5d.erc721TransferExempt(address(erc5d)));
 
         vm.expectRevert();
-        erc4do.setSelfERC721TransferExempt(false);
+        erc5d.setSelfERC721TransferExempt(false);
 
-        erc4do.launch();
-        erc4do.setSelfERC721TransferExempt(false);
+        erc5d.launch();
+        erc5d.setSelfERC721TransferExempt(false);
 
-        assertFalse(erc4do.erc721TransferExempt(deployer));
+        assertFalse(erc5d.erc721TransferExempt(deployer));
 
         vm.stopPrank();
     }
 
     function testCreateToken() public {
-        uint256 totalSupply = erc4do.erc20TotalSupply();
+        uint256 totalSupply = erc5d.erc20TotalSupply();
 
         vm.startPrank(deployer);
-        erc4do.transfer(user1, 1 * 10 ** 18);
+        erc5d.transfer(user1, 1 * 10 ** 18);
         vm.stopPrank();
 
-        assertEq(erc4do.erc20BalanceOf(deployer), totalSupply - 1 * 10 ** 18);
-        assertEq(erc4do.erc20BalanceOf(user1), 1 * 10 ** 18);
+        assertEq(erc5d.erc20BalanceOf(deployer), totalSupply - 1 * 10 ** 18);
+        assertEq(erc5d.erc20BalanceOf(user1), 1 * 10 ** 18);
     }
 
     function testSetUpdateURI() public {
         vm.startPrank(deployer);
 
-        assertEq(erc4do.dataURI(), "");
+        assertEq(erc5d.dataURI(), "");
 
         string memory newURI = "https://newuri.com/";
-        erc4do.updateURI(newURI);
+        erc5d.updateURI(newURI);
 
-        assertEq(erc4do.dataURI(), newURI);
+        assertEq(erc5d.dataURI(), newURI);
 
         vm.stopPrank();
     }
@@ -76,13 +76,13 @@ contract ERC4DoTest is Test {
         vm.startPrank(deployer);
 
         string memory initialURI = "https://initialuri.com/";
-        erc4do.updateURI(initialURI);
-        assertEq(erc4do.dataURI(), initialURI);
+        erc5d.updateURI(initialURI);
+        assertEq(erc5d.dataURI(), initialURI);
 
         string memory updatedURI = "https://updateduri.com/";
-        erc4do.updateURI(updatedURI);
+        erc5d.updateURI(updatedURI);
 
-        assertEq(erc4do.dataURI(), updatedURI);
+        assertEq(erc5d.dataURI(), updatedURI);
 
         vm.stopPrank();
     }
@@ -90,19 +90,19 @@ contract ERC4DoTest is Test {
     function testTransferOwnershipERC6551Registry() public {
         vm.startPrank(deployer);
 
-        registry.transferOwnership(address(erc4do));
+        registry.transferOwnership(address(erc5d));
 
-        assertEq(registry.owner(), address(erc4do));
+        assertEq(registry.owner(), address(erc5d));
 
         vm.stopPrank();
     }
 
-    function testRenounceOwnershipERC4Do() public {
+    function testRenounceOwnershipERC5D() public {
         vm.startPrank(deployer);
 
-        erc4do.renounceOwnership();
+        erc5d.renounceOwnership();
 
-        assertEq(erc4do.owner(), address(0));
+        assertEq(erc5d.owner(), address(0));
 
         vm.stopPrank();
     }
