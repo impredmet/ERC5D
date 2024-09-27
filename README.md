@@ -1,6 +1,6 @@
 # ERC4Do
 
-**ERC4Do** is a new standard based on the [ERC4D standard](https://ethereum-magicians.org/t/erc-4d-dimensional-token-standard-dts/21185), offering significant optimizations that reduce gas fees during the launch process. With Uniswap V3 integration, ERC4Do improves upon the deployment experience by focusing on gas efficiency and reduced costs.
+**ERC4Do** is a new standard based on the [ERC4D standard](https://ethereum-magicians.org/t/erc-4d-dimensional-token-standard-dts/21185), offering significant optimizations that reduce gas fees during the launch process. With Uniswap V3 integration and a fixed `tokenURI` mechanism, ERC4Do improves upon the deployment experience by focusing on gas efficiency, proper image handling for NFTs, and reduced costs.
 
 ## Optimized Gas Fees
 
@@ -93,15 +93,23 @@ To successfully launch an **ERC4Do** token, follow the detailed steps below. The
    - **Important:** Make sure to use the same fee value that was set during the simulation in Step 4 (e.g., if you set `10000`, this corresponds to a `1%` fee tier).
    - Configure the pool parameters based on your preferences.
 
-6. **Launch the Token**:
+6. **Update TokenURI**:
 
-   Finally, after adding liquidity, you can launch the token by calling the `launch()` function:
+   Before launching the token, set the base `tokenURI` for the NFTs. This ensures that the image URLs are properly referenced when queried:
+
+   ```solidity
+   erc4do.updateURI("https://memento.build/nfts/");
+   ```
+
+7. **Launch the Token**:
+
+   Finally, after adding liquidity and setting the `tokenURI`, you can launch the token by calling the `launch()` function:
 
    ```solidity
    erc4do.launch();
    ```
 
-7. **Remove Max Wallet Limit (Optional)**:
+8. **Remove Max Wallet Limit (Optional)**:
 
    If you want to remove the maximum wallet limit restriction for your ERC4Do token, you can call the `removeLimits()` function:
 
