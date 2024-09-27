@@ -15,7 +15,7 @@ contract ERC4DoScript is Script {
         ERC6551Account implementation = new ERC6551Account();
 
         string memory name = "Memento";
-        string memory symbol = "MEMENTO";
+        string memory symbol = "MENTO";
         uint8 decimals = 18;
         uint256 supply721 = 10_000;
         bytes32 salt = keccak256(abi.encodePacked(block.timestamp, msg.sender));
