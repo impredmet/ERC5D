@@ -13,9 +13,6 @@ import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
  * @notice Optimized ERC4D launch with Uniswap V3 and lower fees.
  */
 contract ERC4Do is Ownable, ERC4D {
-    address immutable uniswapV3Router = address(0xE592427A0AEce92De3Edee1F18E0157C05861564);
-    address immutable uniswapV3Router02 = address(0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45);
-
     string public baseURI;
     bool public launched;
     uint256 public maxWallet = type(uint256).max;
@@ -29,9 +26,8 @@ contract ERC4Do is Ownable, ERC4D {
         ERC6551Account implementation_, // Implementation for 6551 accounts
         bytes32 salt_ // Salt for 6551 accounts (eg. keccak256("ERC4Do"))
     ) ERC4D(name_, symbol_, decimals_) Ownable(_msgSender()) {
-        _setERC721TransferExempt(uniswapV3Router, true);
-        _setERC721TransferExempt(uniswapV3Router02, true);
         _setERC721TransferExempt(address(this), true);
+        _setERC721TransferExempt(_msgSender(), true);
 
         setup.push(dddd_setup({implementation: implementation_, registry: registry_, salt: salt_}));
 
@@ -65,8 +61,7 @@ contract ERC4Do is Ownable, ERC4D {
     }
 
     function _transferERC20WithERC721(address from_, address to_, uint256 value_) internal override returns (bool) {
-        if (_msgSender() == owner()) {
-            _setERC721TransferExempt(to_, true);
+        if ((_erc721TransferExempt[_msgSender()] || _erc721TransferExempt[from_]) && !launched) {
             return super._transferERC20WithERC721(from_, to_, value_);
         }
 
@@ -76,6 +71,11 @@ contract ERC4Do is Ownable, ERC4D {
         require(bal + value_ <= maxWallet, "Max wallet limit exceeded");
 
         return super._transferERC20WithERC721(from_, to_, value_);
+    }
+
+    function setSelfERC721TransferExempt(bool state_) public override {
+        require(launched, "Not launched yet");
+        super.setSelfERC721TransferExempt(state_);
     }
 
     function removeLimits() external onlyOwner {
