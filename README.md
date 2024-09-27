@@ -52,6 +52,72 @@ Compared to previous versions like **INCEPT** or any Uniswap V2-based implementa
 - **Lower Gas Fees**: By moving critical operations into the constructor and utilizing Uniswap V3, ERC4Do significantly reduces the gas cost during the launch phase.
 - **Uniswap V3 Features**: Using V3 allows for more efficient liquidity management, reducing overall deployment costs and making liquidity provisioning easier and cheaper.
 
+## How to Launch ERC4Do Token
+
+To successfully launch an **ERC4Do** token, follow the detailed steps below. These steps involve deploying the required **ERC6551** contracts, setting the necessary exemptions, and launching the token.
+
+### Step-by-Step Deployment Guide
+
+1. **Deploy ERC6551 Contracts**: 
+   
+   First, deploy the following two smart contracts from the `libs` folder:
+   
+   - `ERC6551Registry`
+   - `ERC6551Account`
+   
+   These contracts are necessary for managing **ERC721** token setups and accounts.
+
+2. **Deploy ERC4Do Contract**:
+   
+   After deploying the ERC6551 contracts, you can deploy the **ERC4Do** token contract with the following parameters:
+
+   - `name`: The name of your ERC4Do token.
+   - `symbol`: The token symbol.
+   - `decimals`: The number of decimals (typically `18` for ERC-20 tokens).
+   - `supply721`: The total supply of the ERC721 tokens.
+   - `registry`: The deployed `ERC6551Registry` contract.
+   - `implementation`: The deployed `ERC6551Account` contract.
+   - `salt`: A random salt value to ensure the uniqueness of the deployment.
+
+3. **Optional: Renounce Ownership**:
+   
+   After deploying the contracts, if you want the **ERC6551Registry** contract to be fully decentralized and non-upgradable, you can renounce its ownership:
+
+   ```solidity
+   registry.renounceOwnership();
+   ```
+
+   This step is optional and depends on whether you want to retain control over future upgrades of the registry contract.
+
+4. **Provide Liquidity on Uniswap**:
+
+   Before launching the token, you need to provide liquidity for your **ERC4Do** token. Head over to the Uniswap V3 interface and add liquidity for your token:
+
+   [Uniswap V3 Pool Creation](https://app.uniswap.org/pool)
+
+   - Select your **ERC4Do** token as one of the pair assets (the other can be **ETH** or any other token of your choice).
+   - Configure the pool parameters such as fee tier and price range based on your preferences.
+
+   Once liquidity is added, you will have the pool's address, which you need to exempt from ERC721 transfers.
+
+   Set the pool address as exempt in the **ERC4Do** contract:
+
+   ```solidity
+   erc4do.setERC721TransferExempt(poolAddress, true);
+   ```
+
+5. **Launch the Token**:
+
+   Finally, you can launch the token by calling the `launch()` function. This will finalize the deployment and set the necessary parameters, such as the max wallet limit:
+
+   ```solidity
+   erc4do.launch();
+   ```
+
+After completing these steps, your **ERC4Do** token is fully deployed, liquidity is provided, and the token is ready for public trading with Uniswap V3 integration.
+
+After these steps, your **ERC4Do** token is fully deployed and ready for use, with Uniswap V3 integration for efficient liquidity management and reduced gas fees.
+
 ## Conclusion
 
 ERC4Do is an optimized, gas-efficient solution leveraging the latest Uniswap V3 features for better liquidity management and reduced deployment costs. It improves upon the ERC4D standard, making it ideal for those looking for an optimized, lower-fee launch process.
