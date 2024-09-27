@@ -15,7 +15,7 @@ import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 contract ERC4Do is Ownable, ERC4D {
     string public baseURI;
     bool public launched;
-    uint256 public maxWallet = type(uint256).max;
+    uint256 public maxWallet;
 
     constructor(
         string memory name_, // Name for ERC-20 representation
@@ -32,6 +32,7 @@ contract ERC4Do is Ownable, ERC4D {
         setup.push(dddd_setup({implementation: implementation_, registry: registry_, salt: salt_}));
 
         _mintERC20(_msgSender(), supply721_ * units);
+        maxWallet = erc20TotalSupply() / 100;
     }
 
     function tokenURI(uint256 id_) public view override returns (string memory) {
@@ -57,7 +58,6 @@ contract ERC4Do is Ownable, ERC4D {
 
     function launch() external onlyOwner {
         launched = true;
-        maxWallet = erc20TotalSupply() / 100;
     }
 
     function _transferERC20WithERC721(address from_, address to_, uint256 value_) internal override returns (bool) {
