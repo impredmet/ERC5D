@@ -98,7 +98,7 @@ To successfully launch an **ERC5D** token, follow the detailed steps below. Thes
    Before launching the token, set the base `tokenURI` for the NFTs. This ensures that the image URLs are properly referenced when queried:
 
    ```solidity
-   erc5d.updateURI("https://memento.build/nfts/");
+   erc5d.updateURI("https://website.com/nfts/");
    ```
 
 7. **Launch the Token**:
