@@ -25,8 +25,7 @@ contract ERC5DTest is Test {
         registry = new ERC6551Registry();
         implementation = new ERC6551Account();
 
-        erc5d =
-            new ERC5D("Test", "TEST", 18, 10000, registry, implementation, keccak256(abi.encodePacked("TEST")));
+        erc5d = new ERC5D("Test", "TEST", 18, 10000, registry, implementation, keccak256(abi.encodePacked("TEST")));
 
         vm.stopPrank();
     }
