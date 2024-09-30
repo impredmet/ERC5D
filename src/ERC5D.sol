@@ -1,11 +1,3 @@
-/*
- A collection of 10,000 Replicants on ERC5D: optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for NFTs.
- 
- Telegram: https://t.me/mementobuild
- Twitter: https://x.com/mementobuild
- Website: https://memento.build
-*/
-
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.26;
 
@@ -67,8 +59,8 @@ contract ERC5D is Ownable, ERC4D {
 
         string memory jsonPreImage = string.concat(
             string.concat(
-                string.concat('{"name": "Memento #', Strings.toString(id)),
-                '","description":"A collection of 10,000 Replicants on ERC5D: optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for NFTs.","external_url":"https://memento.build","image":"'
+                string.concat('{"name": "Test #', Strings.toString(id)),
+                '","description":"A collection of 10,000 Replicants on ERC5D: optimized ERC4D with lower fees, Uniswap V3, and fixed tokenURI for NFTs.","external_url":"https://website.com","image":"'
             ),
             string.concat(dataURI, image)
         );

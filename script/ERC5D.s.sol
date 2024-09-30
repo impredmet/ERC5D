@@ -14,8 +14,8 @@ contract ERC5DScript is Script {
         ERC6551Registry registry = new ERC6551Registry();
         ERC6551Account implementation = new ERC6551Account();
 
-        string memory name = "Memento";
-        string memory symbol = "MENTO";
+        string memory name = "Token";
+        string memory symbol = "TOKEN";
         uint8 decimals = 18;
         uint256 supply721 = 10_000;
         bytes32 salt = keccak256(abi.encodePacked(block.timestamp, msg.sender));
